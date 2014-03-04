@@ -274,6 +274,12 @@
                 $scope.cancel = function () {
                     this.applyOnQueue('$cancel');
                 };
+
+                this.mergeOptions = function (options) {
+                    var c = angular.extend($scope.options, options);
+                    $element.fileupload('option', angular.extend( fileUpload.defaults, c));
+                };
+
                 // Add upload methods to the scope:
                 angular.extend($scope, uploadMethods);
                 // The fileupload widget will initialize with
@@ -378,8 +384,8 @@
                 $scope.$watch(
                     $attrs.fileUploadPreview + '.preview',
                     function (preview) {
-                        $element.empty();
-                        if (preview) {
+                        if (!angular.isUndefined(preview)) {
+                            $element.empty();
                             $element.append(preview);
                         }
                     }
